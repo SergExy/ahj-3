@@ -1,0 +1,19 @@
+image: "Ubuntu1804"
+stack: node 16
+branches:
+  only:
+    - main
+cache: node_modules
+install: 
+  - yarn install
+build: off
+build_script:
+  - yarn build
+test_script: 
+  - yarn lint & yarn test
+deploy_script:
+  - git config --global credential.helper store
+  - git config --global user.name SergExy
+  - git config --global user.email mycrr1997@mail.ru
+  - echo "https://$GITHUB_TOKEN:x-oauth-basic@github.com" > "$HOME/.git-credentials"
+  - yarn run push-dir --dir=dist --branch=gh-pages --force --verbose
