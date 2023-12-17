@@ -25,7 +25,6 @@ class Goblin {
       if (this.hit === this.score.hitsScore) {
         this.score.losesUp();
       }
-      this.hit = this.score.hitsScore;
       this.init();
       return true;
     }, 1000);
@@ -52,10 +51,18 @@ class Goblin {
 
       goblinEl.addEventListener('click', () => {
         this.score.hitsUp();
+
         if (this.score.hitsScore >= 5) {
           this.remove();
           this.score.winShow();
+          return true;
         }
+
+        clearInterval(this.moveInterval);
+        this.init();
+        this.moveStart();
+        this.hit = this.score.hitsScore;
+        return false;
       });
     }
     const cellEl = this.field.querySelector(`.field__cell_${row}-${cell}`);
